@@ -232,7 +232,12 @@ $(Signed_Enclave_Name): $(Enclave_Name)
 	@$(SGX_ENCLAVE_SIGNER) sign -key Enclave/Enclave_private_test.pem -enclave $(Enclave_Name) -out $@ -config $(Enclave_Config_File)
 	@echo "SIGN =>  $@"
 
-.PHONY: clean
+mrenclave:
+	@$(SGX_ENCLAVE_SIGNER) dump -enclave enclave.signed.so -dumpfile df.out && ./extract_identity < df.out && rm df.out
 
+mrsigner:
+	@$(SGX_ENCLAVE_SIGNER) dump -enclave enclave.signed.so -dumpfile df.out && ./extract_identity --mrsigner < df.out && rm df.out
+
+.PHONY: clean
 clean:
 	@rm -f .config_* $(App_Name) $(Enclave_Name) $(Signed_Enclave_Name) $(App_Cpp_Objects) App/Enclave_u.* $(Enclave_Cpp_Objects) Enclave/Enclave_t.*

@@ -1,24 +1,21 @@
 #include <stdio.h>
 #include <string.h>
-
-#define ENCLAVE_FILENAME "enclave.signed.so"
-
 #include "sgx_urts.h"
 #include "App.h"
 #include "Enclave_u.h"
 
+
+#define ENCLAVE_FILENAME "enclave.signed.so"
+
 sgx_enclave_id_t global_eid = 0;
 
 /* ocall functions (untrusted) */
-void ocall_app_keyinput(const char *str)
-{
+void ocall_app_keyinput(const char *str) {
     printf("%s", str);
     getchar();
 }
 
-/* application entry */
-int SGX_CDECL main(int argc, char *argv[])
-{
+int SGX_CDECL main(int argc, char *argv[]) {
     (void)(argc);
     (void)(argv);
 
